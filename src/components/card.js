@@ -1,4 +1,9 @@
+//import { headerAppender } from './header'
+
+//import { headerAppender } from './header';
+
 /* eslint-disable no-unused-vars */
+const axios = require('axios');
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -18,7 +23,47 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+const cardContainer = document.createElement('div');
+const headline = document.createElement('div');
+const author = document.createElement('div');
+const authorPhotoContainer = document.createElement('div');
+const authorPhoto = document.createElement('img');
+const authorName = document.createElement('span');
+
+cardContainer.classList.add('card');
+headline.classList.add('headline');
+headline.textContent = article.headline
+author.classList.add('author');
+authorPhotoContainer.classList.add('.img-container');
+authorPhoto.src = article.authorPhoto 
+authorName.textContent =article.authorName;
+
+cardContainer.appendChild(headline);
+cardContainer.appendChild(author);
+author.appendChild(authorPhotoContainer);
+authorPhotoContainer.appendChild(authorPhoto);
+author.appendChild(authorName);
+
+return cardContainer;
+
 }
+
+const arrayOfTopics = []
+function arrayOfTopicsCreator () {
+  axios.get('http://localhost:5000/api/topics')
+  .then((resp)=> {
+     const topics = resp.data.topics
+     topics.forEach((element) =>{
+       arrayOfTopics.push(element)
+     })
+  })
+  .catch((error)=>{
+    console.log("There was in error in retrieving Topics")
+    return error;
+  })
+}
+arrayOfTopicsCreator();
+
 
 const cardAppender = (selector) => {
   // TASK 6
@@ -29,6 +74,30 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+
+//takes an array of the 5 topics previously obtained. used those topics to access to respective properties 
+//since the topic name is also name of the object  I need from the response
+//I then iterated through each object that has the the name of each topic to access every single one
+  
+  let entry = document.querySelector(selector);
+  axios.get(`http://localhost:5000/api/articles`)
+    .then((resp) => {
+      arrayOfTopics.forEach((element)=>{
+        let articlesObj = resp.data.articles[element];
+        console.log(articlesObj
+        let n = articlesObj.length;
+        for (let i = 0; i <= n; i++){
+          console.log(i)
+          let finishedCard = Card(articlesObj);
+          //console.log(finishedCard)
+          entry.appendChild(finishedCard);
+        }
+    })
+  })
+    .catch((error)=>{
+      return error
+    })
+return entry
 }
 
 export { Card, cardAppender }

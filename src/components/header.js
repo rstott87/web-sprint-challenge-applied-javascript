@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const Header = (title, date, temp) => {
   // TASK 1
   // ---------------------
@@ -10,7 +11,7 @@ const Header = (title, date, temp) => {
   //    <h1>{ title }</h1>
   //    <span class="temp">{ temp }</span>
   //  </div>
-  //
+  // test
 }
 
 const headerAppender = (selector) => {

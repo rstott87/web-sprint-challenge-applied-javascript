@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const Card = (article) => {
   // TASK 5
   // ---------------------

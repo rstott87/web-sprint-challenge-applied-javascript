@@ -77,24 +77,24 @@ const cardAppender = (selector) => {
 //takes an array of the 5 topics previously obtained. used those topics to access to respective properties 
 //since the topic name is also name of the object  I need from the response
 //I then iterated through each object that has the the name of each topic to access every single one
-  const updatedArray = [ 'bootstrap','javascript','jquery', 'node','technology'] ;
+  const updatedArray = ['bootstrap','javascript','jquery', 'node','technology'] ;
 
   const entry = document.querySelector(selector);
   axios.get('http://localhost:5000/api/articles')
     .then((resp) => {
       updatedArray.forEach((element)=>{
         const articlesObj = resp.data.articles[element];
+        console.log(element)
         console.log(articlesObj)
         let n = articlesObj.length;
-        for (let i = 0; i <= n; i++){
+        for (let i = 0; i < n; i++){
+          console.log(i)
           entry.appendChild(Card(articlesObj[i]))
-          //console.log(finishedCard)
         }
     })
   })
     .catch((error)=>{
       console.log("error")
-      return error
     })
 return entry
 }

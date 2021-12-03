@@ -34,8 +34,8 @@ cardContainer.classList.add('card');
 headline.classList.add('headline');
 headline.textContent = article.headline
 author.classList.add('author');
-authorPhotoContainer.classList.add('.img-container');
-authorPhoto.src = article.authorPhoto 
+authorPhotoContainer.classList.add('img-container');
+authorPhoto.src = article.authorPhoto;
 authorName.textContent =article.authorName;
 
 cardContainer.appendChild(headline);
@@ -48,7 +48,7 @@ return cardContainer;
 
 }
 
-const arrayOfTopics = []
+let arrayOfTopics = []
 function arrayOfTopicsCreator () {
   axios.get('http://localhost:5000/api/topics')
   .then((resp)=> {
@@ -62,8 +62,7 @@ function arrayOfTopicsCreator () {
     return error;
   })
 }
-arrayOfTopicsCreator();
-
+arrayOfTopicsCreator ()
 
 const cardAppender = (selector) => {
   // TASK 6
@@ -78,23 +77,23 @@ const cardAppender = (selector) => {
 //takes an array of the 5 topics previously obtained. used those topics to access to respective properties 
 //since the topic name is also name of the object  I need from the response
 //I then iterated through each object that has the the name of each topic to access every single one
-  
-  let entry = document.querySelector(selector);
-  axios.get(`http://localhost:5000/api/articles`)
+  const updatedArray = [ 'bootstrap','javascript','jquery', 'node','technology'] ;
+
+  const entry = document.querySelector(selector);
+  axios.get('http://localhost:5000/api/articles')
     .then((resp) => {
-      arrayOfTopics.forEach((element)=>{
-        let articlesObj = resp.data.articles[element];
-        console.log(articlesObj
+      updatedArray.forEach((element)=>{
+        const articlesObj = resp.data.articles[element];
+        console.log(articlesObj)
         let n = articlesObj.length;
         for (let i = 0; i <= n; i++){
-          console.log(i)
-          let finishedCard = Card(articlesObj);
+          entry.appendChild(Card(articlesObj[i]))
           //console.log(finishedCard)
-          entry.appendChild(finishedCard);
         }
     })
   })
     .catch((error)=>{
+      console.log("error")
       return error
     })
 return entry

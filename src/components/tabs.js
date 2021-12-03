@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const Tabs = (topics) => {
   // TASK 3
   // ---------------------
@@ -18,14 +20,15 @@ topicsContainer.classList.add("topics")
 
 topics.forEach((element) => {
   const div = document.createElement('div')
-  div.classList.add(element);
+  div.classList.add("tab");
+  div.textContent = element;
   topicsContainer.appendChild(div);
 });
 
 return topicsContainer;
 
 }
-const testArray = ['javascript', 'bootstrap', 'technology']
+//const testArray = ['javascript', 'bootstrap', 'technology']
 const tabsAppender = (selector) => {
   // TASK 4
   // ---------------------
@@ -37,9 +40,14 @@ const tabsAppender = (selector) => {
 
   let select = document.querySelector(selector);
 
-  
-  //select.appendChild(Tabs());
-
+  axios.get('http://localhost:5000/api/topics')
+    .then((resp)=> {
+      select.appendChild(Tabs(resp.data.topics))
+    })
+    .catch((error)=>{
+      console.log("There was in error in retrieving Topics")
+      return error;
+    })
   return select;
 }
 
